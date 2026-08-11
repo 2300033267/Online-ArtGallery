@@ -30,7 +30,7 @@ jobs:
 
       - name: Build React app
         working-directory: OAG_Frontend-main
-        run: npm run build
+        run: node node_modules/vite/bin/vite.js build
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
