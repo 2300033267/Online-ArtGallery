@@ -1,0 +1,44 @@
+name: Deploy Online Art Gallery
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        working-directory: OAG_Frontend-main
+        run: npm install
+
+      - name: Build React app
+        working-directory: OAG_Frontend-main
+        run: npm run build
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload website
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: OAG_Frontend-main/dist
+
+      - name: Deploy
+        uses: actions/deploy-pages@v4
